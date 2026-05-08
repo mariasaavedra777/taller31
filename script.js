@@ -68,47 +68,44 @@ function trazarLinea(x1, y1, x2, y2, color, grosor = 1) {
 }
 // Función para limpiar el lienzo y dibujar la ventana de recorte (rectángulo azul)
 function renderizar() {
-    // 1. Limpiar el lienzo
+    // 1. Limpiar el canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 2. Dibujar el Viewport (Cuadro azul)
+    // 2. Dibujar Ventana Azul (Usando tus variables x1, y1, x2, y2)
+    // Se dibujan 4 líneas para formar el rectángulo
     trazarLinea(ventana.x1, ventana.y1, ventana.x2, ventana.y1, 'blue', 2);
     trazarLinea(ventana.x2, ventana.y1, ventana.x2, ventana.y2, 'blue', 2);
     trazarLinea(ventana.x2, ventana.y2, ventana.x1, ventana.y2, 'blue', 2);
     trazarLinea(ventana.x1, ventana.y2, ventana.x1, ventana.y1, 'blue', 2);
 
-    // 3. Obtener caso actual
+    // 3. Obtener el caso de prueba actual
     const caso = casos[escenaActual];
     
-    // 4. Dibujar línea original (Gris)
+    // 4. Dibujar Línea Original (Gris claro)
     trazarLinea(caso.p1.x, caso.p1.y, caso.p2.x, caso.p2.y, '#e0e0e0', 1);
 
-    // 5. Aplicar recorte (FUNCIÓN 2)
+    // 5. Calcular el Recorte (Usando tu Función 2)
     const r = obtenerLineaRecortada(caso.p1, caso.p2, ventana);
 
-    // 6. Dibujar línea recortada (Roja)
+    // 6. Dibujar Línea Recortada (Roja gruesa)
     if (r) {
         trazarLinea(r.x1, r.y1, r.x2, r.y2, 'red', 3);
     }
 
-    // 7. MOSTRAR TEXTO (Obligatorio para el 5)
+    // 7. Mostrar Textos Informativos (Lo que pide el profe para el 5)
     ctx.fillStyle = "black";
     ctx.font = "bold 14px Arial";
-    ctx.fillText(`Escena: ${escenaActual + 1} de 5`, 10, 25);
+    ctx.fillText(`Escena: ${escenaActual + 1} de 5 - ${caso.desc}`, 10, 25);
     
     ctx.font = "12px Arial";
     ctx.fillStyle = "#555";
-    ctx.fillText(`Línea original: p1(${caso.p1.x}, ${caso.p1.y}) a p2(${caso.p2.x}, ${caso.p2.y})`, 10, 45);
+    ctx.fillText(`Original: p1(${caso.p1.x}, ${caso.p1.y}) a p2(${caso.p2.x}, ${caso.p2.y})`, 10, 45);
     
     if (r) {
         ctx.fillStyle = "red";
         ctx.fillText(`Recorte: pc1(${r.x1.toFixed(1)}, ${r.y1.toFixed(1)}) a pc2(${r.x2.toFixed(1)}, ${r.y2.toFixed(1)})`, 10, 65);
     } else {
         ctx.fillStyle = "orange";
-        ctx.fillText(`Recorte: Rechazo trivial (fuera)`, 10, 65);
+        ctx.fillText("Recorte: Fuera de la ventana", 10, 65);
     }
-
-    // Marcador de origen
-    ctx.fillStyle = "black";
-    ctx.fillText("(0,0)", 5, canvas.height - 5);
 }
