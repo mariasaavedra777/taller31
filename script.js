@@ -61,3 +61,18 @@ function trazarLinea(x1, y1, x2, y2, color, grosor = 1) {
     }
     return accept ? { x1, y1, x2, y2 } : null;
 }
+// Función para limpiar el lienzo y dibujar la ventana de recorte (rectángulo azul)
+function renderizar() {
+    // 1. Limpiamos el canvas para que no se superpongan dibujos anteriores
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 2. Dibujamos el Viewport (las 4 líneas de la ventana azul de 2px de grosor)
+    // Usamos la función 'trazarLinea' que creaste en el Commit 3
+    trazarLinea(ventana.x1, ventana.y1, ventana.x2, ventana.y1, 'blue', 2); // Línea superior
+    trazarLinea(ventana.x2, ventana.y1, ventana.x2, ventana.y2, 'blue', 2); // Línea derecha
+    trazarLinea(ventana.x2, ventana.y2, ventana.x1, ventana.y2, 'blue', 2); // Línea inferior
+    trazarLinea(ventana.x1, ventana.y2, ventana.x1, ventana.y1, 'blue', 2); // Línea izquierda
+}
+
+// Ejecutar la función renderizar automáticamente apenas cargue la página
+window.onload = renderizar;
