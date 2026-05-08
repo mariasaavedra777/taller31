@@ -11,3 +11,11 @@ const casos = [
     { p1: {x: 250, y: 50},  p2: {x: 250, y: 350}, desc: "Recorte vertical (arriba y abajo)" },
     { p1: {x: 80, y: 80},   p2: {x: 420, y: 320}, desc: "Recorte diagonal completo" }
 ];
+function trazarLinea(x1, y1, x2, y2, color, grosor = 1) {
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = grosor;
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.closePath();
