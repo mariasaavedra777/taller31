@@ -109,3 +109,26 @@ function renderizar() {
         ctx.fillText("Recorte: Fuera de la ventana", 10, 65);
     }
 }
+function navegar(direccion) {
+    escenaActual = (escenaActual + direccion + casos.length) % casos.length;
+    
+    // Actualizar el texto del contador en el HTML
+    const spanInfo = document.getElementById('escena-info');
+    if (spanInfo) spanInfo.innerText = `Escena: ${escenaActual + 1} / 5`;
+    
+    renderizar();
+}
+
+// Función para el botón "Actualizar"
+function actualizarVentana() {
+    ventana.x1 = parseFloat(document.getElementById('wx1').value);
+    ventana.y1 = parseFloat(document.getElementById('wy1').value);
+    ventana.x2 = parseFloat(document.getElementById('wx2').value);
+    ventana.y2 = parseFloat(document.getElementById('wy2').value);
+    renderizar();
+}
+
+// ESTO ACTIVA TODO AL CARGAR LA PÁGINA
+window.onload = function() {
+    renderizar();
+};
