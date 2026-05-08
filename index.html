@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Taller 3-1: Cohen-Sutherland</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #f0f4f8; }
+        canvas { border: 1px solid #ccc; background: white; margin-top: 20px; }
+        .controls { margin: 20px; padding: 15px; background: #e2e8f0; border-radius: 8px; }
+        input { width: 50px; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Recorte de Líneas (Cohen-Sutherland)</h1>
+    <div class="controls">
+        Ventana: 
+        X1 <input type="number" id="wx1" value="100"> Y1 <input type="number" id="wy1" value="100">
+        X2 <input type="number" id="wx2" value="400"> Y2 <input type="number" id="wy2" value="300">
+        <button onclick="actualizarVentana()">Actualizar</button>
+    </div>
+    <canvas id="canvas" width="600" height="450"></canvas>
+    <div>
+        <button onclick="navegar(-1)">|<</button>
+        <button onclick="navegar(-1)"><</button>
+        <span id="escena-info">Escena: 1 / 5</span>
+        <button onclick="navegar(1)">></button>
+        <button onclick="navegar(1)">>|</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
