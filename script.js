@@ -12,13 +12,18 @@ const casos = [
     { p1: {x: 80, y: 80},   p2: {x: 420, y: 320}, desc: "Recorte diagonal completo" }
 ];
 function trazarLinea(x1, y1, x2, y2, color, grosor = 1) {
+    const H = canvas.height; // Altura del lienzo
     ctx.beginPath();
     ctx.strokeStyle = color;
     ctx.lineWidth = grosor;
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
+    
+    // Invertimos la Y restándola del alto total del canvas
+    ctx.moveTo(x1, H - y1); 
+    ctx.lineTo(x2, H - y2);
+    
     ctx.stroke();
-    ctx.closePath();}
+    ctx.closePath();
+}
     function obtenerLineaRecortada(p1, p2, v) {
     const INSIDE = 0, LEFT = 1, RIGHT = 2, BOTTOM = 4, TOP = 8;
 
