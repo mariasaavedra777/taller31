@@ -68,16 +68,47 @@ function trazarLinea(x1, y1, x2, y2, color, grosor = 1) {
 }
 // Función para limpiar el lienzo y dibujar la ventana de recorte (rectángulo azul)
 function renderizar() {
-    // 1. Limpiamos el canvas para que no se superpongan dibujos anteriores
+    // 1. Limpiar el lienzo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 2. Dibujamos el Viewport (las 4 líneas de la ventana azul de 2px de grosor)
-    // Usamos la función 'trazarLinea' que creaste en el Commit 3
-    trazarLinea(ventana.x1, ventana.y1, ventana.x2, ventana.y1, 'blue', 2); // Línea superior
-    trazarLinea(ventana.x2, ventana.y1, ventana.x2, ventana.y2, 'blue', 2); // Línea derecha
-    trazarLinea(ventana.x2, ventana.y2, ventana.x1, ventana.y2, 'blue', 2); // Línea inferior
-    trazarLinea(ventana.x1, ventana.y2, ventana.x1, ventana.y1, 'blue', 2); // Línea izquierda
-}
+    // 2. Dibujar el Viewport (Cuadro azul)
+    trazarLinea(ventana.x1, ventana.y1, ventana.x2, ventana.y1, 'blue', 2);
+    trazarLinea(ventana.x2, ventana.y1, ventana.x2, ventana.y2, 'blue', 2);
+    trazarLinea(ventana.x2, ventana.y2, ventana.x1, ventana.y2, 'blue', 2);
+    trazarLinea(ventana.x1, ventana.y2, ventana.x1, ventana.y1, 'blue', 2);
 
-// Ejecutar la función renderizar automáticamente apenas cargue la página
-window.onload = renderizar;
+    // 3. Obtener el caso actual del arreglo
+    const caso = casos[escenaActual];
+    
+    // 4. Dibujar línea original (Gris claro para referencia)
+    trazarLinea(caso.p1.x, caso.p1.y, caso.p2.x, caso.p2.y, '#e0e0e0', 1);
+
+    // 5. Calcular el recorte usando tu FUNCIÓN 2
+    const r = obtenerLineaRecortada(caso.p1, caso.p2, ventana);
+
+    // 6. Dibujar la línea recortada en ROJO (si existe)
+    if (r) {
+        trazarLinea(r.x1, r.y1, r.x2, r.y2, 'red', 3);
+    }
+
+    // 7. MOSTRAR TEXTOS (Tal como pidió el profe)
+    ctx.fillStyle = "black";
+    ctx.font = "bold 14px Arial";
+    ctx.fillText(`Escena: ${escenaActual + 1} - ${caso.desc}`, 10, 25);
+    
+    ctx.font = "12px Arial";
+    ctx.fillStyle = "#555";
+    ctx.fillText(`Línea original: p1(${caso.p1.x}, ${caso.p1.y}) a p2(${caso.p2.x}, ${caso.p2.y})`, 10, 45);
+    
+    if (r) {
+        ctx.fillStyle = "red";
+        ctx.fillText(`Recorte: pc1(${r.x1.toFixed(1)}, ${r.y1.toFixed(1)}) a pc2(${r.x2.toFixed(1)}, ${r.y2.toFixed(1)})`, 10, 65);
+    } else {
+        ctx.fillStyle = "orange";
+        ctx.fillText(`Recorte: Totalmente fuera de la ventana`, 10, 65);
+    }
+    
+    // Dibujar el origen para guía
+    ctx.fillStyle = "black";
+    ctx.fillText("(0,0)", 5, canvas.height - 5);
+}
