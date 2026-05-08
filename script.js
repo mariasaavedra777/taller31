@@ -77,24 +77,24 @@ function renderizar() {
     trazarLinea(ventana.x2, ventana.y2, ventana.x1, ventana.y2, 'blue', 2);
     trazarLinea(ventana.x1, ventana.y2, ventana.x1, ventana.y1, 'blue', 2);
 
-    // 3. Obtener el caso actual del arreglo
+    // 3. Obtener caso actual
     const caso = casos[escenaActual];
     
-    // 4. Dibujar línea original (Gris claro para referencia)
+    // 4. Dibujar línea original (Gris)
     trazarLinea(caso.p1.x, caso.p1.y, caso.p2.x, caso.p2.y, '#e0e0e0', 1);
 
-    // 5. Calcular el recorte usando tu FUNCIÓN 2
+    // 5. Aplicar recorte (FUNCIÓN 2)
     const r = obtenerLineaRecortada(caso.p1, caso.p2, ventana);
 
-    // 6. Dibujar la línea recortada en ROJO (si existe)
+    // 6. Dibujar línea recortada (Roja)
     if (r) {
         trazarLinea(r.x1, r.y1, r.x2, r.y2, 'red', 3);
     }
 
-    // 7. MOSTRAR TEXTOS (Tal como pidió el profe)
+    // 7. MOSTRAR TEXTO (Obligatorio para el 5)
     ctx.fillStyle = "black";
     ctx.font = "bold 14px Arial";
-    ctx.fillText(`Escena: ${escenaActual + 1} - ${caso.desc}`, 10, 25);
+    ctx.fillText(`Escena: ${escenaActual + 1} de 5`, 10, 25);
     
     ctx.font = "12px Arial";
     ctx.fillStyle = "#555";
@@ -105,10 +105,10 @@ function renderizar() {
         ctx.fillText(`Recorte: pc1(${r.x1.toFixed(1)}, ${r.y1.toFixed(1)}) a pc2(${r.x2.toFixed(1)}, ${r.y2.toFixed(1)})`, 10, 65);
     } else {
         ctx.fillStyle = "orange";
-        ctx.fillText(`Recorte: Totalmente fuera de la ventana`, 10, 65);
+        ctx.fillText(`Recorte: Rechazo trivial (fuera)`, 10, 65);
     }
-    
-    // Dibujar el origen para guía
+
+    // Marcador de origen
     ctx.fillStyle = "black";
     ctx.fillText("(0,0)", 5, canvas.height - 5);
 }
