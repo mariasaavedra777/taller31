@@ -18,4 +18,46 @@ function trazarLinea(x1, y1, x2, y2, color, grosor = 1) {
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
     ctx.stroke();
-    ctx.closePath();
+    ctx.closePath();}
+    function obtenerLineaRecortada(p1, p2, v) {
+    const INSIDE = 0, LEFT = 1, RIGHT = 2, BOTTOM = 4, TOP = 8;
+
+    const computeCode = (x, y) => {
+        let code = INSIDE;
+        if (x < v.x1) code |= LEFT;
+        else if (x > v.x2) code |= RIGHT;
+        if (y < v.y1) code |= BOTTOM;
+        else if (y > v.y2) code |= TOP;
+        return code;
+    };
+
+    let x1 = p1.x, y1 = p1.y, x2 = p2.x, y2 = p2.y;
+    let code1 = computeCode(x1, y1);
+    let code2 = computeCode(x2, y2);
+    let accept = false;
+
+    while (true) {
+        if (!(code1 | code2)) { accept = true; break; }
+        else if (code1 & code2) { break; }
+        else {
+            let x, y;
+            let codeOut = code1 ? code1 : code2;
+            if (codeOut & TOP) {
+                x = x1 + (x2 - x1) * (v.y2 - y1) / (y2 - y1);
+                y = v.y2;
+            } else if (codeOut & BOTTOM) {
+                x = x1 + (x2 - x1) * (v.y1 - y1) / (y2 - y1);
+                y = v.y1;
+            } else if (codeOut & RIGHT) {
+                y = y1 + (y2 - y1) * (v.x2 - x1) / (x2 - x1);
+                x = v.x2;
+            } else if (codeOut & LEFT) {
+                y = y1 + (y2 - y1) * (v.x1 - x1) / (x2 - x1);
+                x = v.x1;
+            }
+            if (codeOut === code1) { x1 = x; y1 = y; code1 = computeCode(x1, y1); }
+            else { x2 = x; y2 = y; code2 = computeCode(x2, y2); }
+        }
+    }
+    return accept ? { x1, y1, x2, y2 } : null;
+}
